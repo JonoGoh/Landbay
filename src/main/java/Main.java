@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -48,19 +49,18 @@ public class Main {
         System.out.println("-----------------------------------------------------------------------------------------");
         System.out.println("Chose which method to assign Mortgages to Funders: ");
         System.out.println("1: Assign each Funder 1 Mortgage per \"order\"");
-        System.out.println("2: Share all Mortgages between Funders");
+        System.out.println("2: Share all Mortgages of Product type between Funders requesting that Product");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String option = reader.readLine();
 
         switch (option) {
             case "1" -> assignMortgages1();
-            case "2" -> System.out.println("2nd Option Chosen.");
+            case "2" -> assignMortgages2();
             default -> System.out.println("Invalid Option selected");
         }
 
-        printAssignedMorgages();
-
+        printAssignedMortgages();
     }
 
     public static void readProducts(String fileName) {
@@ -117,6 +117,9 @@ public class Main {
                 Funder funder = new Funder();
                 funder.setFunder_name(data[0]);
                 funder.setProduct_id(data[1]);
+                if (!funderProducts.containsKey(data[0])) {
+                    funderProducts.put(data[0], new ArrayList<Mortgage>());
+                }
                 return funder;
             }).collect(Collectors.toList());
         } catch (IOException | CsvException e) {
@@ -129,9 +132,6 @@ public class Main {
 //        mortgageMap.forEach((key, value) -> System.out.println(key + " " + value));
         Collections.shuffle(funderRequests);
         funderRequests.forEach(x -> {
-            if (!funderProducts.containsKey(x.getFunder_name())) {
-                funderProducts.put(x.getFunder_name(),new ArrayList<Mortgage>());
-            }
             if (!mortgageMap.get(x.getProduct_id()).isEmpty()) {
                 funderProducts.get(x.getFunder_name())
                         .add(mortgageMap.get(x.getProduct_id()).remove(0));
@@ -142,12 +142,44 @@ public class Main {
 
     public static void assignMortgages2() {
         mortgageMap.values().forEach(Collections::sort);
+        Collections.sort(funderRequests);
+
+        Iterator<Funder> iterator = funderRequests.iterator();
+        String currProduct = "";
+        ArrayList<String> currFunders = new ArrayList<String>();
+        while (iterator.hasNext()){
+            Funder curr = iterator.next();
+            if (!curr.getProduct_id().equals(currProduct)) {
+                if (!currProduct.equals("")) fitMortgages(currProduct, currFunders);
+                currProduct = curr.getProduct_id();
+                currFunders.clear();
+            }
+            currFunders.add(curr.getFunder_name());
+        }
+        fitMortgages(currProduct,currFunders);
+
     }
 
-    public static void printAssignedMorgages() {
+    /*
+    Implementation of Greedy Algorithm for a partitioning problem.
+     */
+    public static void fitMortgages(String P, ArrayList<String> L) {
+        Collections.shuffle(L);
+        ArrayList<Double> sums = new ArrayList<Double>(Collections.nCopies(L.size(), 0.0));
+        ArrayList<Mortgage> M = mortgageMap.get(P);
+
+        for (Mortgage m : M) {
+            int index = sums.indexOf(Collections.min(sums));
+            funderProducts.get(L.get(index)).add(m);
+            Double currSum = sums.get(index);
+            sums.set(index, currSum + m.calculateOneYearProfit());
+        }
+    }
+
+    public static void printAssignedMortgages() {
         funderProducts.entrySet().forEach(entry -> {
             String buffer = "";
-            buffer += entry.getKey() + " is assigned Mortgages:";
+            buffer += entry.getKey() + " is assigned Mortgages:\t";
             for (Mortgage mortgage : entry.getValue()) {
                 buffer += " " + mortgage.getMortgage_id();
             }

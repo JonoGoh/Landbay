@@ -1,6 +1,6 @@
 package landbay;
 
-public class Funder {
+public class Funder implements Comparable<Funder> {
     private String funder_name;
     private String product_id;
 
@@ -9,6 +9,10 @@ public class Funder {
     public Funder(String funder_name, String product_id) {
         this.funder_name = funder_name;
         this.product_id = product_id;
+    }
+
+    public int compareTo(Funder funder) {
+        return product_id.compareTo(funder.getProduct_id());
     }
 
     public void setFunder_name(String funder_name){
