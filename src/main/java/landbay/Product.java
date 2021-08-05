@@ -1,10 +1,16 @@
 package landbay;
 
+/*
+ * Product Class
+ */
 public class Product {
     private String product_id;
     private String rate;
     private String product_name;
 
+    /*
+     * Constructors
+     */
     public Product() {}
 
     public Product(String product_id, String rate, String product_name) {
@@ -13,6 +19,9 @@ public class Product {
         this.product_name = product_name;
     }
 
+    /*
+     * Setters/Getters/toString
+     */
     public void setProduct_id(String product_id) {
         this.product_id = product_id;
     }

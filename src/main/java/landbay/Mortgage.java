@@ -1,10 +1,17 @@
 package landbay;
 
+/*
+ * Mortgage Class. Inherits Product class as Mortgages are a type of Product.
+ * Implements the Comparable Class so that it can be sorted by "profit" amount (Might be useful in future)
+ */
 public class Mortgage extends Product implements Comparable<Mortgage> {
     private String mortgage_id;
     private String loan_amount;
     private String postcode;
 
+    /*
+     * Constructors
+     */
     public Mortgage() {}
 
     public Mortgage(Product product) {
@@ -18,6 +25,12 @@ public class Mortgage extends Product implements Comparable<Mortgage> {
         this.postcode = postcode;
     }
 
+    /*
+     * Calculate "profit" for 1 year based on the rate of the Mortgage * loan amount.
+     * Could be useful for future implementations of Mortgage allocation algorithms.
+     *
+     * @return      the "profit" amount
+     */
     public double calculateOneYearProfit() {
         double l = Double.parseDouble(getLoan_amount());
         double r = Double.parseDouble(getRate().substring(0,getRate().length()-1));
@@ -28,6 +41,9 @@ public class Mortgage extends Product implements Comparable<Mortgage> {
         return (int) Math.round(mortgage.calculateOneYearProfit() - calculateOneYearProfit());
     }
 
+    /*
+     * Setters/Getters/toString
+     */
     public void setMortgage_id(String mortgage_id) {
         this.mortgage_id = mortgage_id;
     }
