@@ -19,16 +19,20 @@ Enter `1` or `2` in the terminal to select option.
 
 ### Defining "fairness"
 Since this problem is very vague with no clear direction for how to distribute the mortgages to the funders, there 
-are many potential interpretations for the solution.
+are many potential interpretations for the solution. Below are the two solutions I have come up with for this coding 
+challenge:
 
 1. The first method assumes that each entry in the funded_products_to_funder.csv file corresponds to that funder 
    being assigned one mortgage in the pool. For this method to be fair, the Funder objects are shuffled to remove 
    any predetermined bias from the input file as well as any alphabetical bias in the funder names. Funders are then 
    assigned mortgages in descending order from the FunderRequests list. It is therefore "fair" since 
 2. The second method assumes that all mortgages of type 1 will be assigned between all funders requesting that type. 
-   In effect, this becomes a "Partitioning problem" which is NP-complete. As a result, for the time being, I have 
-   implemented a "Greedy Algorithm" that assigns mortgages from a sorted Mortgage List to the funder with the lowest 
-   current sum of loans.
+   In effect, this becomes a "Partitioning problem" or a "Multiway number partitioning problem", both of which are 
+   NP-complete. As a result, for the time being, I have implemented a "Greedy Algorithm" that assigns mortgages from 
+   a sorted Mortgage List to the funder with the lowest current sum of loans.
+
+Note: There are many other implementations for the second method, including "Largest Differencing Method" and a 
+"Multifit Algorithm", which may have better performance for mortgage allocations.
 
 ### Bonus Questions
 
