@@ -10,10 +10,13 @@ After running the application, a menu will come up asking you which method to us
 > 1: Assign each Funder 1 Mortgage per "order"\
 > 2: Share all Mortgages of Product type between Funders requesting that Product
 
+Enter `1` or `2` in the terminal to select option.
+
 ### Assumptions
 - The CSV files containing the data are in the correct format with no null fields
 
-### Bonus Questions
-#### Question 1
+[comment]: <> (### Bonus Questions)
 
-#### Question 2
+[comment]: <> (#### Question 1)
+
+[comment]: <> (#### Question 2)
