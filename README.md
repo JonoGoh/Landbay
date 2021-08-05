@@ -14,6 +14,21 @@ Enter `1` or `2` in the terminal to select option.
 
 ### Assumptions
 - The CSV files containing the data are in the correct format with no null fields
+  - I have worked primarily on functionality of the program with less consideration towards the potential 
+    bugs/errors so far.
+
+### Defining "fairness"
+Since this problem is very vague with no clear direction for how to distribute the mortgages to the funders, there 
+are many potential interpretations for the solution.
+
+1. The first method assumes that each entry in the funded_products_to_funder.csv file corresponds to that funder 
+   being assigned one mortgage in the pool. For this method to be fair, the Funder objects are shuffled to remove 
+   any predetermined bias from the input file as well as any alphabetical bias in the funder names. Funders are then 
+   assigned mortgages in descending order from the FunderRequests list. It is therefore "fair" since 
+2. The second method assumes that all mortgages of type 1 will be assigned between all funders requesting that type. 
+   In effect, this becomes a "Partitioning problem" which is NP-complete. As a result, for the time being, I have 
+   implemented a "Greedy Algorithm" that assigns mortgages from a sorted Mortgage List to the funder with the lowest 
+   current sum of loans.
 
 ### Bonus Questions
 
