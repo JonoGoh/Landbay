@@ -25,7 +25,7 @@ challenge:
 1. The first method assumes that each entry in the funded_products_to_funder.csv file corresponds to that funder 
    being assigned one mortgage in the pool. For this method to be fair, the Funder objects are shuffled to remove 
    any predetermined bias from the input file as well as any alphabetical bias in the funder names. Funders are then 
-   assigned mortgages in descending order from the FunderRequests list. It is therefore "fair" since 
+   assigned mortgages in descending order from the FunderRequests list, making it "fair".
 2. The second method assumes that all mortgages of type 1 will be assigned between all funders requesting that type. 
    In effect, this becomes a "Partitioning problem" or a "Multiway number partitioning problem", both of which are 
    NP-complete. As a result, for the time being, I have implemented a "Greedy Algorithm" that assigns mortgages from 
